@@ -107,16 +107,18 @@ class TestController extends AbstractController
 
 //Requêtes de suppression :
 
-         $livre = $livreRepository->findById(123)[0];
-         dump($livre);
+        //  $livre = $livreRepository->findById(123)[0];
+        //  dump($livre);
 
-         $entityManager->remove($livre);
-         $entityManager->flush();
-         dump($livre); 
+        //  $entityManager->remove($livre);
+        //  $entityManager->flush();
+        //  dump($livre); 
+
+        //  @Info: Provoque l'erreur suivante:
+        //  An exception occurred while executing 'DELETE FROM livre WHERE id = ?' 
+        //  with params [123]: SQLSTATE[23000]: Integrity constraint violation: 1
 
 // Les emprunteurs
-
-
         
         //la liste complète des emprunteurs
          $emprunteur = $emprunteurRepository->findAll();
