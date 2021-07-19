@@ -18,7 +18,40 @@ class LivreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Livre::class);
     }
+    public function findByGenre($genre)
+    {
+        return $this->createQueryBuilder('l')
+        ->innerJoin('l.genres', 'g')
+        ->andWhere('g.nom LIKE :genre')
+        ->setParameter('genre', "%{$genre}%")
+        ->orderBy('l.id','ASC')
+        // ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
+    }
 
+    public function findByAuteurId($auteurId)
+    {
+        return $this->createQueryBuilder('l')
+        ->innerJoin('l.auteur', 'a')
+        ->andWhere('a.id LIKE :auteurId')
+        ->setParameter('auteurId', "{$auteurId}")
+        ->orderBy('l.id','ASC')
+        // ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findByTitle($title)
+    {
+        return $this->createQueryBuilder('l')
+        ->where('l.titre LIKE :title')
+        ->setParameter('title', "%{$title}%")
+        ->orderBy('l.id','ASC')
+        // ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
+    }
     // /**
     //  * @return Livre[] Returns an array of Livre objects
     //  */

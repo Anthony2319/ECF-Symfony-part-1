@@ -312,7 +312,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
         {
             $auteur = $auteursParam[0];
             $genre = $genresParam[0];
-            $emprunt = $empruntsParam[0];
+            $emprunt = array_shift($empruntsParam);
 
             $livre = [];
             $livre = new livre();
@@ -329,7 +329,8 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
 
             $auteur = $auteursParam[1];
             $genre = $genresParam[1];
-            $emprunt = $empruntsParam[1];
+            $emprunt = array_shift($empruntsParam);
+            
 
             $livre = new livre();
             $livre->setTitre('Consectetur adipiscing elit ');
@@ -345,7 +346,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
 
             $auteur = $auteursParam[2];
             $genre = $genresParam[2];
-            $emprunt = $empruntsParam[2];
+            $emprunt = array_shift($empruntsParam);
 
             $livre = new livre();
             $livre->setTitre('Mihi quidem Antiochum ');
@@ -361,7 +362,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
 
             $auteur = $auteursParam[3];
             $genre = $genresParam[3];
-            $emprunt = $empruntsParam[3];
+            $emprunt = array_shift($empruntsParam);
 
             $livre = new livre();
             $livre->setTitre('Quem audis satis belle');
@@ -378,22 +379,11 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
             // création de livre avec des données aléatoires
             for ($i = 4; $i < $livresCount; $i++) {
                 if($i%2 === 0) {
-                $auteurIndex = $i/2;
-
-                $livre = new Livre();
-                $livre->setTitre($this->faker->sentence(2));
-                $livre->setAnneeEdition($this->faker->numberBetween($min = 1950, $max = 2021));
-                $livre->setNombrePages($this->faker->numberBetween($min = 30, $max = 1000));
-                $livre->setCodeIsbn($this->faker->ean13());
-                $livre->setAuteur($auteursParam[$auteurIndex]);
-                $livre->addGenre($genresParam[$this->faker->numberBetween($min = 0, $max = 12)]);
-                $livre->addEmprunt($emprunt);
-
-                $manager->persist($livre);
-                $livres[] = $livre;
-
+                    $auteurIndex = $i/2;
                 } else {
-                $auteurIndex = ($i-1)/2;
+                    $auteurIndex = ($i-1)/2;
+                }
+
 
                 $livre = new Livre();
                 $livre->setTitre($this->faker->sentence(2));
@@ -402,11 +392,17 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
                 $livre->setCodeIsbn($this->faker->ean13());
                 $livre->setAuteur($auteursParam[$auteurIndex]);
                 $livre->addGenre($genresParam[$this->faker->numberBetween($min = 0, $max = 12)]);
-                $livre->addEmprunt($emprunt);
+                
+                if (!empty($empruntsParam)){
+                    $emprunt = array_shift($empruntsParam);
+                    $livre->addEmprunt($emprunt);
+                }
+
 
                 $manager->persist($livre);
                 $livres[] = $livre;
-            }
+
+            
         }
     }
 }
