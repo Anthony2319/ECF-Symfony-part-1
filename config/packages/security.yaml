@@ -17,6 +17,13 @@ security:
         main:
             anonymous: lazy
             provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -29,3 +36,100 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+
+        # Tous les chemins commençant par "/user/id/edit" ne sont accessibles qu'aux roles admin ou student
+        # La partie "id" du chemin doit être une suite chiffres
+        # Cette route correspond à la modification d'un user
+        - { path: "^/user/[0-9]+/edit", roles: [ROLE_ADMIN] }
+
+
+        # Tous les chemins commençant par "/user/new" ne sont accessibles qu'aux roles admin
+        # Cette route correspond à la création d'un user
+        - { path: "^/user/new", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins demandés commençant par "/user/id" ne sont accessibles qu'au role admin.
+        # Cette route correspond à la consultation ou la suppression d'un student
+        - { path: "^/user/[0-9]+/?$", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/user" ne sont accessibles qu'aux roles admin.
+        # Cette route correspond à la consultation de la liste des users
+        - { path: ^/user, roles: [ROLE_ADMIN] }
+
+
+
+
+        # Tous les chemins commençant par "/livre/id/edit" ne sont accessibles qu'au role admin
+        # La partie "id" du chemin doit être une suite chiffres
+        # Cette route correspond à la modification d'un livre
+        - { path: "^/livre/[0-9]+/edit", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/livre/new" ne sont accessibles qu'aux roles admin
+        # Cette route correspond à la création d'un livre
+        - { path: "^/livre/new", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/livre" ne sont accessibles qu'aux roles admin ou emprunteur.
+        # Cette route correspond à la consultation de la liste des livres
+        - { path: ^/livre, roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR]}
+                # Tous les chemins demandés commençant par "/livre/id" ne sont accessibles qu'aux roles admin.
+        # Cette route correspond à la consultation ou la suppression d'un livre
+        - { path: "^/livre/[0-9]+/?$", roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR] }
+
+
+
+        # Tous les chemins commençant par "/genre/id/edit" ne sont accessibles qu'au role admin
+        # La partie "id" du chemin doit être une suite chiffres
+        # Cette route correspond à la modification d'un genre
+        - { path: "^/genre/[0-9]+/edit", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins demandés commençant par "/genre/id" ne sont accessibles qu'aux roles admin.
+        # Cette route correspond à la consultation ou la suppression d'un genre
+        - { path: "^/genre/[0-9]+/?$", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/genre/new" ne sont accessibles qu'aux roles admin
+        # Cette route correspond à la création d'un genre
+        - { path: "^/genre/new", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/genre" ne sont accessibles qu'aux roles admin ou emprunteur.
+        # Cette route correspond à la consultation de la liste des genres
+        - { path: ^/genre, roles: [ROLE_ADMIN]}
+
+
+
+        # Tous les chemins commençant par "/emprunteur/id/edit" ne sont accessibles qu'au role admin
+        # La partie "id" du chemin doit être une suite chiffres
+        # Cette route correspond à la modification d'un emprunteur
+        - { path: "^/emprunteur/[0-9]+/edit", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins demandés commençant par "/emprunteur/id" ne sont accessibles qu'aux roles admin.
+        # Cette route correspond à la consultation ou la suppression d'un emprunteur
+        - { path: "^/emprunteur/[0-9]+/?$", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/emprunteur/new" ne sont accessibles qu'aux roles admin
+        # Cette route correspond à la création d'un emprunter
+        - { path: "^/emprunteur/new", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/emprunteur" ne sont accessibles qu'aux roles admin.
+        # Cette route correspond à la consultation de la liste des emprunteurs
+        - { path: ^/emprunteur, roles: [ROLE_ADMIN]}
+ 
+
+
+
+        # Tous les chemins commençant par "/emprunt/id/edit" ne sont accessibles qu'au role admin
+        # La partie "id" du chemin doit être une suite chiffres
+        # Cette route correspond à la modification d'un emprunt
+        - { path: "^/emprunt/[0-9]+/edit", roles: [ROLE_ADMIN] }
+
+        # Tous les chemins commençant par "/emprunt/new" ne sont accessibles qu'aux roles admin
+        # Cette route correspond à la création d'un emprunt
+        - { path: "^/emprunt/new", roles: [ROLE_ADMIN] }
+
+                # Tous les chemins demandés commençant par "/emprunt/id" ne sont accessibles qu'aux roles admin et emprunteur.
+        # Cette route correspond à la consultation ou la suppression d'un emprunteur
+        - { path: "^/emprunt/[0-9]+/?$", roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR] }
+
+        # Tous les chemins commençant par "/emprunt" ne sont accessibles qu'aux roles admin et emprunteur.
+        # Cette route correspond à la consultation de la liste des emprunts
+        - { path: ^/emprunt, roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR]}
+ 
