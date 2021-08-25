@@ -13,6 +13,9 @@
                 <th>Annee_edition</th>
                 <th>Nombre_pages</th>
                 <th>Code_isbn</th>
+                <th>Genre</th>
+                <th>Auteur</th>
+                <th>Disponibilité</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,6 +27,18 @@
                 <td>{{ livre.anneeEdition }}</td>
                 <td>{{ livre.nombrePages }}</td>
                 <td>{{ livre.codeIsbn }}</td>
+                
+                {% for genre in livre.genres %}
+                <td>{{genre.nom}}</td>
+                {% endfor %}
+
+                <td>{{ livre.auteur.nom }} {{livre.auteur.prenom}}</td>
+                {% if livre.isAvailable == 1 %}
+                    <td>✔️ Disponible</td>
+                {% endif %}
+                {% if livre.isAvailable == 0 %}
+                    <td>❌ Indisponible</td>
+                {% endif %}
                 <td>
                     <a href="{{ path('livre_show', {'id': livre.id}) }}">show</a>
                     <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>

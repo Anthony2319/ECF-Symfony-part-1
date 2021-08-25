@@ -22,36 +22,49 @@
             </button>          
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
+
+
                 <li class="nav-item active">
-                  <a class="nav-link" href="/">Accueil<span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="http://127.0.0.1:8000/">Accueil<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/login/">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/livre/">Livre</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/auteur/">Auteur</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/emprunteur/">Emprunteur</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/emprunt/">Emprunt</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/genre/">Genre</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/user/">User</a>
-                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/user/">User</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/livre/">Livre</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/auteur/">Auteur</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/genre/">Genre</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/emprunteur/">Emprunteur</a>
+                  </li>
+                {% endif %}
+
+                {% if is_granted(['ROLE_ADMIN', 'ROLE_EMPRUNTEUR']) %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/emprunt/">Emprunt</a>
+                  </li>
+                {% endif %}
+
+                {% if is_granted(['ROLE_ADMIN', 'ROLE_EMPRUNTEUR']) %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se Déconnecter</a>
+                  </li>
+                {% else %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="http://127.0.0.1:8000/login/">Se Connecter</a>
+                  </li>
+                {% endif %}
 
               </ul>
             </div>
           </nav>
         {% block body %}
-        
         {% endblock %}
     </body>
 </html>
